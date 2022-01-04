@@ -18,45 +18,48 @@ import java.util.stream.Collectors;
 @Service
 public class UserProjectCardAllParamImpl implements UserProjectCardAllParam {
 
-    private final UserProjectCardRepository userRepositoryProjectCardRepository;
+    private final UserProjectCardRepository userProjectCardRepository;
     private final FirstTypeRepository firstTypeRepository;
     private final SecondTypeRepository secondTypeRepository;
 
     @Autowired
-    public UserProjectCardAllParamImpl(UserProjectCardRepository userRepositoryProjectCardRepository,
+    public UserProjectCardAllParamImpl(UserProjectCardRepository userProjectCardRepository,
                                        FirstTypeRepository firstTypeRepository,
                                        SecondTypeRepository secondTypeRepository) {
-        this.userRepositoryProjectCardRepository = userRepositoryProjectCardRepository;
+        this.userProjectCardRepository = userProjectCardRepository;
         this.firstTypeRepository = firstTypeRepository;
         this.secondTypeRepository = secondTypeRepository;
     }
 
+    //показать введенные дтошки,все
     @Override
     public List<UserProjectCardWithAllDto> getAllUserWithAllDto() {
-        return userRepositoryProjectCardRepository.findAll()
+        return userProjectCardRepository.findAll()
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
     }
 
-
+    //преобразовать Сущность в дто
     @Override
     public UserProjectCardWithAllDto convertEntityToDto(UserProjectCard userProjectCard) {
         UserProjectCardWithAllDto userWithAllDto = new UserProjectCardWithAllDto();
         userWithAllDto.setNameProject(userProjectCard.getNameProject());
         userWithAllDto.setNameCustomer(userProjectCard.getCustomerName());
-       // userWithAllDto.setFirstTypeName(userProjectCard.getFirstTypeName().getTypeName());
+        userWithAllDto.setFirstType(userProjectCard.getFirstType().getFirstTypeName());
+        userWithAllDto.setSecondType(userProjectCard.getSecondType().getSecondTypeName());
         return userWithAllDto;
     }
 
-
+    //вывести все карчтоки
     @Override
     public List<UserProjectCard> getAllUserProjectCard() {
-        List<UserProjectCard> collect = userRepositoryProjectCardRepository.findAll();
+        List<UserProjectCard> collect = userProjectCardRepository.findAll();
         return collect.stream()
                 .collect(Collectors.toList());
     }
 
+    //создание карточки пользователя
     @Override
     public UserProjectCard converterDtoToEntity(UserProjectCardWithAllDto userProjectCardWithAllDto) {
         UserProjectCard userProjectCard = new UserProjectCard();
@@ -76,10 +79,23 @@ public class UserProjectCardAllParamImpl implements UserProjectCardAllParam {
                             .filter( n -> n.getSecondTypeName().equals(userProjectCardWithAllDto.getSecondType()))
                                     .findFirst();
             userProjectCard.setSecondType(secondTypeOptional.get());
-            
 
-        userRepositoryProjectCardRepository.save(userProjectCard);
+
+        userProjectCardRepository.save(userProjectCard);
         return userProjectCard;
+
+    }
+
+    //удалить карточку пользователя по айди
+    @Override
+    public String deleteById(Long id) {
+        try {
+            userProjectCardRepository.deleteById(id);
+            return "Удаление прошло успешно!";
+        }catch (Exception e){
+            return "Что-то пошло не так..";
+        }
+
 
     }
 }
