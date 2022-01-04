@@ -1,4 +1,6 @@
-package ru.mysait.controller;
+
+
+package ru.mysait.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,3 +27,5 @@ public class LoadDataBase {
         };
     }
 }
+
+

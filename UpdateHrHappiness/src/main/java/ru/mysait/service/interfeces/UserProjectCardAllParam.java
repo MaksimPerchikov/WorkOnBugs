@@ -1,16 +1,18 @@
 package ru.mysait.service.interfeces;
 
-import ru.mysait.dto.UserWithAllDto;
+import ru.mysait.dto.UserProjectCardWithAllDto;
 import ru.mysait.model.UserProjectCard;
 
 import java.util.List;
 
-public interface UserFirstType {
+public interface UserProjectCardAllParam {
 
-    List<UserWithAllDto> getAllUserWithAllDto();
+    List<UserProjectCardWithAllDto> getAllUserWithAllDto();
 
-    UserWithAllDto convertEntityToDto(UserProjectCard user);
+    List<UserProjectCard> getAllUserProjectCard();
 
-    void converterDtoToEntity(UserWithAllDto userWithAllDto);
+    UserProjectCardWithAllDto convertEntityToDto(UserProjectCard user);
+
+    UserProjectCard converterDtoToEntity(UserProjectCardWithAllDto userWithAllDto);
 
 }

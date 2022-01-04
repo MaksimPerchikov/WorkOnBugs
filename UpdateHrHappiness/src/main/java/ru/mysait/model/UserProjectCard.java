@@ -10,19 +10,22 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-@Table(name = "users")
-public class User {
+@Table(name = "user_project_card")
+public class UserProjectCard {
 
     @Id
     @GeneratedValue
     private Long id;
-    private String name;
-    private String email;
-    private String password;
+
+    @Column(name = "name_project")
+    private String nameProject;
+
+    @Column(name = "customer_name")
+    private String customerName;
 
     @OneToOne
     @JoinColumn(name = "first_type_id")
-    private FirstType firstType;
+    private FirstType firstTypeName;
 
    /* @ManyToOne
     @JoinColumn(name = "location_id")

@@ -4,28 +4,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.mysait.dto.UserProjectCardWithAllDto;
 /*import ru.mysait.dto.UserWithAllnDto;*/
+import ru.mysait.model.UserProjectCard;
 import ru.mysait.service.UserProjectCardAllParamImpl;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/my")
-public class UserLocationRestController {
+public class UserProjectCardRestController {
 
 
-    private final UserProjectCardAllParamImpl userFirstType;
+    private final UserProjectCardAllParamImpl userProjectCardAllParamImpl;
     @Autowired
-    public UserLocationRestController(UserProjectCardAllParamImpl userFirstType) {
-        this.userFirstType = userFirstType;
+    public UserProjectCardRestController(UserProjectCardAllParamImpl userProjectCardAllParamImpl) {
+        this.userProjectCardAllParamImpl = userProjectCardAllParamImpl;
     }
 
     @GetMapping(value = "/allN")
     public List<UserProjectCardWithAllDto> findAll(){
-        return userFirstType.getAllUserWithAllDto();
+        return userProjectCardAllParamImpl.getAllUserWithAllDto();
+    }
+
+    @GetMapping(value = "/allUPC")
+    public List<UserProjectCard> findAllUserProjectCard(){
+        return userProjectCardAllParamImpl.getAllUserProjectCard();
     }
 
     @PostMapping(value = "/create")
-    public void create(@RequestBody UserProjectCardWithAllDto userProjectCardWithAllDto) throws Exception {
-        userFirstType.converterDtoToEntity(userProjectCardWithAllDto);
+    public List<UserProjectCard> create(@RequestBody UserProjectCardWithAllDto userProjectCardWithAllDto){
+        userProjectCardAllParamImpl.converterDtoToEntity(userProjectCardWithAllDto);
+        return userProjectCardAllParamImpl.getAllUserProjectCard();
     }
 }

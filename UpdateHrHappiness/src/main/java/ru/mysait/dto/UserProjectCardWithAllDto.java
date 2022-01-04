@@ -8,12 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Data
-public class UserWithAllDto {
+public class UserProjectCardWithAllDto {
 
-  private Long idUserProjectCard;
+ // private Long idUserProjectCard;
   private String nameProject;
   private String nameCustomer;
-  private String firstTypeName;
+   private String firstType;
 
 
 

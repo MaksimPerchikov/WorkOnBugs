@@ -2,52 +2,74 @@ package ru.mysait.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.mysait.dto.UserWithAllDto;
+import ru.mysait.dto.UserProjectCardWithAllDto;
+import ru.mysait.model.FirstType;
 import ru.mysait.model.UserProjectCard;
 import ru.mysait.repository.FirstTypeRepository;
-import ru.mysait.repository.UserRepository;
-import ru.mysait.service.interfeces.UserFirstType;
+import ru.mysait.repository.UserProjectCardRepository;
+import ru.mysait.service.interfeces.UserProjectCardAllParam;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserFirstTypeImpl implements UserFirstType {
+public class UserProjectCardAllParamImpl implements UserProjectCardAllParam {
 
-    private final UserRepository userRepository;
+    private final UserProjectCardRepository userRepositoryProjectCardRepository;
     private final FirstTypeRepository firstTypeRepository;
 
     @Autowired
-    public UserFirstTypeImpl(UserRepository userRepository, FirstTypeRepository firstTypeRepository) {
-        this.userRepository = userRepository;
+    public UserProjectCardAllParamImpl(UserProjectCardRepository userRepositoryProjectCardRepository,
+                                       FirstTypeRepository firstTypeRepository) {
+        this.userRepositoryProjectCardRepository = userRepositoryProjectCardRepository;
         this.firstTypeRepository = firstTypeRepository;
     }
 
+    @Autowired
+
+
     @Override
-    public List<UserWithAllDto> getAllUserWithAllDto() {
-        return userRepository.findAll()
+    public List<UserProjectCardWithAllDto> getAllUserWithAllDto() {
+        return userRepositoryProjectCardRepository.findAll()
                 .stream()
                 .map(this::convertEntityToDto)
                 .collect(Collectors.toList());
     }
 
+
     @Override
-    public UserWithAllDto convertEntityToDto(UserProjectCard user) {
-        UserWithAllDto userWithAllDto = new UserWithAllDto();
-        userWithAllDto.setUserId(user.getId());
-        userWithAllDto.setEmail(user.getEmail());
-        userWithAllDto.setFirstType(user.getFirstType().getTypeName());
+    public UserProjectCardWithAllDto convertEntityToDto(UserProjectCard userProjectCard) {
+        UserProjectCardWithAllDto userWithAllDto = new UserProjectCardWithAllDto();
+        userWithAllDto.setNameProject(userProjectCard.getNameProject());
+        userWithAllDto.setNameCustomer(userProjectCard.getCustomerName());
+       // userWithAllDto.setFirstTypeName(userProjectCard.getFirstTypeName().getTypeName());
         return userWithAllDto;
     }
 
+
     @Override
-    public void converterDtoToEntity(UserWithAllDto userWithAllDto) {
-        UserProjectCard user = new UserProjectCard();
-        user.setId(userWithAllDto.getUserId());
-        user.setEmail(userWithAllDto.getEmail());
+    public List<UserProjectCard> getAllUserProjectCard() {
+        List<UserProjectCard> collect = userRepositoryProjectCardRepository.findAll();
+        return collect.stream()
+                .collect(Collectors.toList());
+    }
 
-        user.getFirstType().setTypeName(userWithAllDto.getFirstType());
+    @Override
+    public UserProjectCard converterDtoToEntity(UserProjectCardWithAllDto userProjectCardWithAllDto) {
+        UserProjectCard userProjectCard = new UserProjectCard();
+        userProjectCard.setNameProject(userProjectCardWithAllDto.getNameProject());
+        userProjectCard.setCustomerName(userProjectCardWithAllDto.getNameCustomer());
 
-        userRepository.save(user);
+            List<FirstType> firstTypeList = firstTypeRepository.findAll();
+            Optional<FirstType> firstTypeOptional = firstTypeList.stream()
+                    .filter(n -> n.getFirstTypeName().equals(userProjectCardWithAllDto.getFirstType()))
+                            .findFirst();
+
+            userProjectCard.setFirstTypeName(firstTypeOptional.get());
+
+        userRepositoryProjectCardRepository.save(userProjectCard);
+        return userProjectCard;
+
     }
 }

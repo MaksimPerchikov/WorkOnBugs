@@ -4,36 +4,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ru.mysait.model.Location;
-import ru.mysait.model.User;
-import ru.mysait.repository.LocationRepository;
-import ru.mysait.repository.UserRepository;
+import ru.mysait.model.FirstType;
+import ru.mysait.model.UserProjectCard;
+import ru.mysait.repository.FirstTypeRepository;
+import ru.mysait.repository.UserProjectCardRepository;
+
 
 @SpringBootApplication
-public class ApplicationStarter implements CommandLineRunner {
+public class ApplicationStarter /*implements CommandLineRunner */{
     public static void main(String[] args) {
         SpringApplication.run(ApplicationStarter.class);
     }
 
+   /* private final FirstTypeRepository firstTypeRepository;
+    private final UserProjectCardRepository userProjectCardRepository;
     @Autowired
-    private LocationRepository locationRepository;
-    @Autowired
-    private UserRepository userRepository;
+    public ApplicationStarter(FirstTypeRepository firstTypeRepository,
+                              UserProjectCardRepository userProjectCardRepository) {
+        this.firstTypeRepository = firstTypeRepository;
+        this.userProjectCardRepository = userProjectCardRepository;
+    }
 
     @Override
     public void run(String... args) throws Exception {
+        FirstType firstType = new FirstType();
+        firstType.setFirstTypeName("Архив");
+        firstTypeRepository.save(firstType);
 
-        Location location = new Location();
-        location.setPlace("Nigniy Novgorod");
-        location.setD(77.77);
-        location.setSh(88.88);
-        locationRepository.save(location);
-
-        User user = new User();
-        user.setName("Max");
-        user.setEmail("max.@mail.com");
-        user.setPassword("password");
-        user.setLocation(location);
-        userRepository.save(user);
-    }
+        UserProjectCard userProjectCard = new UserProjectCard();
+        userProjectCard.setNameProject("fname");
+        userProjectCard.setCustomerName("fcust");
+        userProjectCard.setFirstTypeName(firstType);
+        userProjectCardRepository.save(userProjectCard);
+    }*/
 }
