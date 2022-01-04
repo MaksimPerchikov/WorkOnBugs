@@ -20,8 +20,12 @@ public class User {
     private String email;
     private String password;
 
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(name = "first_type_id")
+    private FirstType firstType;
+
+   /* @ManyToOne
     @JoinColumn(name = "location_id")
-    private Location location;
+    private Location location;*/
 
 }
