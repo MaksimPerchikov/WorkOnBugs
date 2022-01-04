@@ -13,8 +13,8 @@ public class UserProjectCardWithAllDto {
  // private Long idUserProjectCard;
   private String nameProject;
   private String nameCustomer;
-   private String firstType;
-
+  private String firstType;
+  private String secondType;
 
 
 }

@@ -25,7 +25,11 @@ public class UserProjectCard {
 
     @OneToOne
     @JoinColumn(name = "first_type_id")
-    private FirstType firstTypeName;
+    private FirstType firstType;
+
+    @OneToOne
+    @JoinColumn(name="second_type_id")
+    private SecondType secondType;
 
    /* @ManyToOne
     @JoinColumn(name = "location_id")

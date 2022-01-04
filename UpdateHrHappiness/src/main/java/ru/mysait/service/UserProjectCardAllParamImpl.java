@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mysait.dto.UserProjectCardWithAllDto;
 import ru.mysait.model.FirstType;
+import ru.mysait.model.SecondType;
 import ru.mysait.model.UserProjectCard;
 import ru.mysait.repository.FirstTypeRepository;
+import ru.mysait.repository.SecondTypeRepository;
 import ru.mysait.repository.UserProjectCardRepository;
 import ru.mysait.service.interfeces.UserProjectCardAllParam;
 
@@ -18,16 +20,16 @@ public class UserProjectCardAllParamImpl implements UserProjectCardAllParam {
 
     private final UserProjectCardRepository userRepositoryProjectCardRepository;
     private final FirstTypeRepository firstTypeRepository;
+    private final SecondTypeRepository secondTypeRepository;
 
     @Autowired
     public UserProjectCardAllParamImpl(UserProjectCardRepository userRepositoryProjectCardRepository,
-                                       FirstTypeRepository firstTypeRepository) {
+                                       FirstTypeRepository firstTypeRepository,
+                                       SecondTypeRepository secondTypeRepository) {
         this.userRepositoryProjectCardRepository = userRepositoryProjectCardRepository;
         this.firstTypeRepository = firstTypeRepository;
+        this.secondTypeRepository = secondTypeRepository;
     }
-
-    @Autowired
-
 
     @Override
     public List<UserProjectCardWithAllDto> getAllUserWithAllDto() {
@@ -64,9 +66,17 @@ public class UserProjectCardAllParamImpl implements UserProjectCardAllParam {
             List<FirstType> firstTypeList = firstTypeRepository.findAll();
             Optional<FirstType> firstTypeOptional = firstTypeList.stream()
                     .filter(n -> n.getFirstTypeName().equals(userProjectCardWithAllDto.getFirstType()))
-                            .findFirst();
+                    .findFirst();
 
-            userProjectCard.setFirstTypeName(firstTypeOptional.get());
+            userProjectCard.setFirstType(firstTypeOptional.get());
+
+            List<SecondType> secondTypeList = secondTypeRepository.findAll();
+
+            Optional<SecondType> secondTypeOptional = secondTypeList.stream()
+                            .filter( n -> n.getSecondTypeName().equals(userProjectCardWithAllDto.getSecondType()))
+                                    .findFirst();
+            userProjectCard.setSecondType(secondTypeOptional.get());
+            
 
         userRepositoryProjectCardRepository.save(userProjectCard);
         return userProjectCard;
