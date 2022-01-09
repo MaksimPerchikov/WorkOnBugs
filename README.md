@@ -16,3 +16,9 @@
     "university":"University name of M.I.Lobachevscogo",
     "faculty":"RF"
 }
+
+(изменять можно все поля на свои значени,кроме firstType и secondType.
+Эти два поля проверяются по базе и у них свои значения.
+firstType: "Архив","Черновик", ""В работе"
+secondType: "Новый" или "Старый"
+)
