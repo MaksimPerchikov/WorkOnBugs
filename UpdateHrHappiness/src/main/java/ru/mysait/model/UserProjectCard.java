@@ -1,8 +1,10 @@
 package ru.mysait.model;
 
 import lombok.*;
+import ru.mysait.model.useInformation.User;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -31,8 +33,8 @@ public class UserProjectCard {
     @JoinColumn(name="second_type_id")
     private SecondType secondType;
 
-   /* @ManyToOne
-    @JoinColumn(name = "location_id")
-    private Location location;*/
+    @ManyToOne//@OneToOne тоже подходит,странно
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

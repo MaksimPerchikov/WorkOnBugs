@@ -35,4 +35,14 @@ public class UserProjectCardRestController {
         userProjectCardAllParamImpl.converterDtoToEntity(userProjectCardWithAllDto);
         return userProjectCardAllParamImpl.getAllUserProjectCard();
     }
+
+    @DeleteMapping(value = "/{id}")
+    public String deleteUserProjectCardById(@PathVariable("id") Long id){
+        return userProjectCardAllParamImpl.deleteById(id);
+    }
+
+    @DeleteMapping(value = "/deleteAll")
+    public String deleteAllUPC(){
+        return userProjectCardAllParamImpl.deleteAllUserProjectCard();
+    }
 }

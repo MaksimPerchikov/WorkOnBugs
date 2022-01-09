@@ -6,9 +6,10 @@ import ru.mysait.dto.UserProjectCardWithAllDto;
 import ru.mysait.model.FirstType;
 import ru.mysait.model.SecondType;
 import ru.mysait.model.UserProjectCard;
-import ru.mysait.repository.FirstTypeRepository;
-import ru.mysait.repository.SecondTypeRepository;
-import ru.mysait.repository.UserProjectCardRepository;
+import ru.mysait.model.useInformation.Faculty;
+import ru.mysait.model.useInformation.University;
+import ru.mysait.model.useInformation.User;
+import ru.mysait.repository.*;
 import ru.mysait.service.interfeces.UserProjectCardAllParam;
 
 import java.util.List;
@@ -21,14 +22,24 @@ public class UserProjectCardAllParamImpl implements UserProjectCardAllParam {
     private final UserProjectCardRepository userProjectCardRepository;
     private final FirstTypeRepository firstTypeRepository;
     private final SecondTypeRepository secondTypeRepository;
+    private final UserRepository userRepository;
+    private final UniversityRepository universityRepository;
+    private final FacultyRepository facultyRepository;
+
 
     @Autowired
     public UserProjectCardAllParamImpl(UserProjectCardRepository userProjectCardRepository,
                                        FirstTypeRepository firstTypeRepository,
-                                       SecondTypeRepository secondTypeRepository) {
+                                       SecondTypeRepository secondTypeRepository,
+                                       UserRepository userRepository,
+                                       UniversityRepository universityRepository,
+                                       FacultyRepository facultyRepository) {
         this.userProjectCardRepository = userProjectCardRepository;
         this.firstTypeRepository = firstTypeRepository;
         this.secondTypeRepository = secondTypeRepository;
+        this.userRepository = userRepository;
+        this.universityRepository = universityRepository;
+        this.facultyRepository = facultyRepository;
     }
 
     //показать введенные дтошки,все
@@ -63,10 +74,14 @@ public class UserProjectCardAllParamImpl implements UserProjectCardAllParam {
     @Override
     public UserProjectCard converterDtoToEntity(UserProjectCardWithAllDto userProjectCardWithAllDto) {
         UserProjectCard userProjectCard = new UserProjectCard();
+        User user = new User();
+        University universityObject = new University();
+        Faculty facultyObject = new Faculty();
         userProjectCard.setNameProject(userProjectCardWithAllDto.getNameProject());
         userProjectCard.setCustomerName(userProjectCardWithAllDto.getNameCustomer());
 
             List<FirstType> firstTypeList = firstTypeRepository.findAll();
+
             Optional<FirstType> firstTypeOptional = firstTypeList.stream()
                     .filter(n -> n.getFirstTypeName().equals(userProjectCardWithAllDto.getFirstType()))
                     .findFirst();
@@ -80,8 +95,23 @@ public class UserProjectCardAllParamImpl implements UserProjectCardAllParam {
                                     .findFirst();
             userProjectCard.setSecondType(secondTypeOptional.get());
 
+            user.setName(userProjectCardWithAllDto.getUserName());
+            user.setSurname(userProjectCardWithAllDto.getSurname());
+
+            universityObject.setUniversityName(userProjectCardWithAllDto.getUniversity());
+            universityRepository.save(universityObject);
+            user.setUniversity(universityObject);
+
+
+            facultyObject.setFacultyName(userProjectCardWithAllDto.getFaculty());
+            facultyRepository.save(facultyObject);
+            user.setFaculty(facultyObject);
+
+            userRepository.save(user);
+            userProjectCard.setUser(user);
 
         userProjectCardRepository.save(userProjectCard);
+
         return userProjectCard;
 
     }
@@ -96,6 +126,17 @@ public class UserProjectCardAllParamImpl implements UserProjectCardAllParam {
             return "Что-то пошло не так..";
         }
 
+
+    }
+
+    @Override
+    public String deleteAllUserProjectCard() {
+        try {
+            userProjectCardRepository.deleteAll();
+            return "удаление прошло успешно!";
+        }catch (Exception e){
+            return "Something's wrong..";
+        }
 
     }
 }

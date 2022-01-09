@@ -15,4 +15,8 @@ public interface UserProjectCardAllParam {
 
     UserProjectCard converterDtoToEntity(UserProjectCardWithAllDto userWithAllDto);
 
+    String deleteById(Long id);
+
+    String deleteAllUserProjectCard();
+
 }

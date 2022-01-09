@@ -10,11 +10,15 @@ import javax.persistence.Id;
 @Data
 public class UserProjectCardWithAllDto {
 
- // private Long idUserProjectCard;
   private String nameProject;
   private String nameCustomer;
   private String firstType;
   private String secondType;
+
+  private String userName;
+  private String surname;
+  private String university;
+  private String faculty;
 
 
 }
