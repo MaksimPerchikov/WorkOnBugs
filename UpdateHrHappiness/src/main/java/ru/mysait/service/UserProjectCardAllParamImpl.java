@@ -59,6 +59,10 @@ public class UserProjectCardAllParamImpl implements UserProjectCardAllParam {
         userWithAllDto.setNameCustomer(userProjectCard.getCustomerName());
         userWithAllDto.setFirstType(userProjectCard.getFirstType().getFirstTypeName());
         userWithAllDto.setSecondType(userProjectCard.getSecondType().getSecondTypeName());
+        userWithAllDto.setUserName(userProjectCard.getUser().getName());
+        userWithAllDto.setSurname(userProjectCard.getUser().getSurname());
+        userWithAllDto.setUniversity(userProjectCard.getUser().getUniversity().getUniversityName());
+        userWithAllDto.setFaculty(userProjectCard.getUser().getFaculty().getFacultyName());
         return userWithAllDto;
     }
 
