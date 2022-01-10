@@ -4,6 +4,8 @@
              итогового проекта(этого - https://github.com/MaksimPerchikov/team8.git).
 Так же сам принцип принятия запросов и отдачи ответов.
 
+Искать по пути : WorkOnBugs/UpdateHrHappiness/src/main/java/ru/mysait/
+
 Создание карточки можно проверить по эндпоинту  "/my/create" с Джейсоном
 
 {
